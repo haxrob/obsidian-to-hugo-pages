@@ -1,0 +1,78 @@
+name: 'obsidian-to-hugo-pages'
+description: 'Convert Obsidian notes to Hugo and publish on Github Pages'
+author: 'x1sec'
+branding: 
+  icon: play-circle
+  color: black
+inputs:
+  vault-path:
+    required: true
+    type: string
+  external-repository:
+    required: true
+    type: string
+  github-token:
+    required: true
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true 
+        fetch-depth: 0
+
+    - name: Cache cargo plugins
+      id: cache-obsidian-export
+      uses: actions/cache@v1
+      with:
+        path: ~/.cargo/bin/
+        key: ${{ runner.os }}-cargo-plugins
+
+    - name: Install obsidian-export
+      if: steps.cache-obsidian-export.outputs.cache-hit != 'true'
+      uses: actions-rs/install@v0.1
+      with:
+        crate: obsidian-export
+        version: latest
+
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: 'latest'
+        extended: true
+
+    - name: Create posts dir if not exists
+      shell: bash
+      run: mkdir -p ./content/posts
+
+    - name: Create layout fix directory
+      shell: bash
+      run: mkdir -p layouts/_default/_markup/
+
+    - name: Obsidian layout fixes for images and links
+      uses: actions/checkout@v3
+      with:
+        repository: x1sec/obsidian-to-hugo-action
+        path: layout
+
+    - name: Copy over layout fixes to correct path
+      shell: bash
+      run: cp layout/layout/* layouts/_default/_markup/
+
+    - name: Export Vault
+      shell: bash
+      run: obsidian-export ./${{ inputs.vault-path }} ./content/posts 
+
+    - name: Build
+      shell: bash
+      run: hugo --minify
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.ref == 'refs/heads/main' }}
+      with:
+        personal_token: ${{ inputs.github-token }}
+        publish_dir: ./public
+        #external_repository: ${{ inputs.external-repository }} 
