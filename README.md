@@ -4,4 +4,4 @@ Github workflow action that converts Obsidian notes to a static website hosted i
 
 The conversion from Obsidian Markdown to Hugo is done by running [obsidian-export](https://github.com/zoni/obsidian-export) and adding a modification to the default template layout to fix relative URIs for links and images embedded in the Obsidian notes.
 
-Detailed tutorial can be found [here](https://blog.x1sec.com/)
+Detailed tutorial can be found [here](https://blog.x1sec.com/posts/obsidian-to-hugo-github-pages-action)
