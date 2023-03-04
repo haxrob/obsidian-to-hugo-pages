@@ -4,7 +4,7 @@ Simply do a `git push`. Hugo static content is generated within the Github runne
 
 ## Installation
 
-*Note:* A detailed tutorial can be found [here](https://blog.x1sec.com/posts/obsidian-to-hugo-github-pages-actions)
+*Note:* A detailed tutorial can be found [here](https://blog.x1sec.com/posts/obsidian-to-hugo-github-pages-action/)
 
 1. Place Obsidian vault within a correctly setup [Github pages](https://pages.github.com/) repository. If a [Hugo site](https://gohugo.io/) has not been generated, run `hugo new site`.
 2. Create an Github action in the repository, e.g.`.github/workflows/main.yml` with the following contents. Note `vault-path` should be changed to the directory name of the Obsidian vault:
