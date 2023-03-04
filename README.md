@@ -33,4 +33,4 @@ jobs:
 
 The conversion from Obsidian Markdown to Hugo is done by running [obsidian-export](https://github.com/zoni/obsidian-export) and adding a modification to the default template layout to fix relative URIs for links and images embedded in the Obsidian notes. Hugo generation uses the workflow [hugo-setup](https://github.com/marketplace/actions/hugo-setup)
 
-Please feel free to reach out to me, `https://twitter.com/haxrob` if you have any issues.
+Please feel free to reach out to me on [Twitter](https://twitter.com/haxrob) if you have any issues.
